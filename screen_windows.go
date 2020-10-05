@@ -5,6 +5,8 @@ package main
 import (
 	"unsafe"
 
+	"image"
+
 	win "golang.org/x/sys/windows"
 )
 
@@ -21,7 +23,7 @@ type proc struct {
 	cleanup func()
 }
 
-type screen struct {
+type Screen struct {
 	h   HWND
 	dc  HDC
 	err error
@@ -30,15 +32,15 @@ type screen struct {
 	wproc wapi
 }
 
-func NewScreen() *screen {
+func NewScreen() *Screen {
 	return &screen{wproc: make(map[string]proc)}
 }
 
-func (s *screen) Error() string {
+func (s *Screen) Error() string {
 	return s.err.Error()
 }
 
-func (s *screen) Close() {
+func (s *Screen) Close() {
 	for _, v := range s.wproc {
 		v.cleanup()
 	}
@@ -69,6 +71,13 @@ func (s *screen) openwWinHandle() error {
 	return nil
 }
 
+func (s *Screen) Capture() ([]byte, error) {
+
+}
+
+func (s *Screen) CaptureImage() (image.Image, error) {
+
+}
 func free(p uintptr) {
 	C.free(unsafe.Pointer(p))
 }

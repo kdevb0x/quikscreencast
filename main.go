@@ -1,5 +1,3 @@
-// +build linux
-
 package main
 
 import (
@@ -8,13 +6,17 @@ import (
 )
 
 // Screen represents a view of the screen.
-type Screen interface {
+type ScreenView interface {
 	Output(w io.Writer, f Format)
 	Start(ctx context.Context) (pause, stop func())
-	Paused() bool
 	Stopped() bool
 }
 
+type PausableScreen interface {
+	ScreenView
+	Pause()
+	Paused() bool
+}
 type Format int
 
 const (
